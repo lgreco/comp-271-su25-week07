@@ -67,7 +67,7 @@ Then write a brief reflection (100-300 words) discussing what you got right, wha
 
 For both classes (Stack and Queue), the implementation of the `Comparable` interface can involve *either* the different in underlying array lengths betweek the invoking object (`this`) and the referenced object (`other`) *or* the difference between their respective `occupancy` values. Using `occupancy` may be more accurate. Both objects (`this` and `other`) may have the same length underlying arrays, but different number of elements in them. Notice that we cannot access the occupancy value from `Stack` or `Queue` directly, because it's a `private` field. A *getter* method, `int getOccupancy()` is introduced in the superclass `DynamicArray` to facilitate access.
 
-### `String peek()`
+#### `String peek()`
 
 This requires access to the first element of the underlying array in superclass `DynamicArray`. Because the underlying array is `private`, we cannot simply write 
 ```java
@@ -75,15 +75,15 @@ return this.underlying[0];
 ```
 Therefore, we must **update** class `DynamicArray` with an accessor method to return the first element of its underlying array. This is method [`DynamicArray.getFirst()`](https://github.com/lgreco/comp-271-su25-week06/blob/24ac9fdc1c91448ba90eb4a30eb8608d9e1bd6cf/DynamicArray.java#L39).
 
-### `String pop()`
+#### `String pop()`
 
 This is a simple call to `DynamicArray.remove(0)` for both its `Queue` and `Stack` extensions.
 
-### `void Stack.push(String e)`
+#### `void Stack.push(String e)`
 
 This method is specific to the `Stack` extension of `DynamicArray` and is dictacted by interface `Lifo`. It requires that we place the new value `String e` at the front of the underlying array. To do that, we must first shift all the elements from the front, one positiont to the right. This may require resizing the underlying array first. Essentially, we need to [overload `add`]https://github.com/lgreco/comp-271-su25-week06/blob/24ac9fdc1c91448ba90eb4a30eb8608d9e1bd6cf/DynamicArray.java#L79 in `DynamicArray` to allow for addition of an element at a specified index position.
 
-### No `Queue.add()`?
+#### No `Queue.add()`?
 
 There is no `add` method in class `Queue`. Still, the class fulfills the `Lifo` interface through its inherited `void DynamicArray.add(String e)`
 
