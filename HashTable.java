@@ -14,7 +14,11 @@ public class HashTable<E extends Comparable<E>> {
      */
     private Node[] underlying;
 
+    /** Counts how many places in the underlying array are occupied */
     private int usage;
+
+    /** Counts how many nodes are stored in this hashtable */
+    private int totalNodes;
 
     /**
      * Default size for the underlying array. Users may specify any size, but the
@@ -28,6 +32,7 @@ public class HashTable<E extends Comparable<E>> {
             size = DEFAULT_SIZE;
         this.underlying = new Node[size];
         this.usage = 0;
+        this.totalNodes = 0;
     }
 
     /** Default constructor, passes defauilt size to basic constructor */
@@ -61,39 +66,43 @@ public class HashTable<E extends Comparable<E>> {
             // Now place the new node in the target position
             this.underlying[position] = newNode;
         }
+        // Update the number of nodes
+        this.totalNodes += 1;
     } // method add
 
-
+    /** Constants for toString */
     private static final String LINKED_LIST_HEADER = "\n[ %2d ]: ";
-    private static final String EMPTY_LIST = "null";
-    private static final String OBJECT_HEADER = "There are %d elements in the underlying array; and %d are used.";
+    private static final String EMPTY_LIST_MESSAGE = "null";
+    private static final String ARRAY_INFORMATION = "Underlying array usage / length: %d/%d";
+    private static final String NODES_INFORMATION = "\nTotal number of nodes: %d";
+    private static final String NODE_CONTENT = "%s --> ";
 
+    /** String representationf for the object */
     public String toString() {
         // Initialize the StringBuilder object with basic info
         StringBuilder sb = new StringBuilder(
-                String.format(
-                        OBJECT_HEADER,
-                        this.underlying.length,
-                        this.usage));
-        // Traverse the array
+                String.format(ARRAY_INFORMATION,
+                        this.underlying.length, this.usage));
+        sb.append(String.format(NODES_INFORMATION, this.totalNodes));
+        // Iterate the array
         for (int i = 0; i < underlying.length; i++) {
             sb.append(String.format(LINKED_LIST_HEADER, i));
             Node head = this.underlying[i];
             if (head == null) {
                 // message that this position is empty
-                sb.append(EMPTY_LIST);
+                sb.append(EMPTY_LIST_MESSAGE);
             } else {
                 // traverse the linked list, displaying its elements
                 Node cursor = head;
                 while (cursor != null) {
                     // update sb
-                    sb.append(cursor.toString() + " --> ");
+                    sb.append(String.format(NODE_CONTENT, cursor));
                     // move to the next node of the ll
                     cursor = cursor.getNext();
-                }
-            }
-        }
+                } // done traversing the linked list
+            } // done checking the current position of the underlying array
+        } // done iterating the underlying array
         return sb.toString();
-    }
+    } // method toString
 
 } // class HashTable
